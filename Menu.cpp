@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Colors.h"
+#include "ClearScreen.h"
 
 #define MAX_MENU_ITEMS 4
 #define NAME 0 
