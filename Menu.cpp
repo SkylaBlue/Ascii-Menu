@@ -11,10 +11,23 @@
 
 int MenuIndex = 0;
 
+
+/*
+std::string test()
+{
+	std::string name;
+	std::cout << "Enter your name: ";
+	std::cin.ignore();
+	getline(std::cin, name);
+	std::cout << "Name is now: " << name << std::endl;
+	return name;
+}
+*/
+
 // Menu Items
 struct Items
 {
-  const char *name;
+    const char *name;
 	bool Enabled;
 };
 
@@ -51,22 +64,36 @@ void KeyboardInput()
 		 }
 	  }
 
+	 /*
+	 if (GetAsyncKeyState(VK_RETURN)&1)
+		{
+			switch(MenuIndex)
+			 {
+				case 0:
+					std::cout << test();
+					ClearScreen();
+					break;
+				default: 
+					break;
+			 }
+		}
+	*/
 	if(GetAsyncKeyState(VK_END)&1)
 	 {
 		item[MenuIndex].Enabled = !item[MenuIndex].Enabled; 
 	 }
-			
-
+	
 }
 
 // Initialise our Menu
 void SetNames()
 {
-        item[NAME].name = "Change Name";
-        item[COLOR].name = "Single Chat";  
-        item[ITEM].name = "Global Chat ";
-        item[MENU].name = "Status spam";
+        item[0].name = "Change Name";
+        item[1].name = "Single Chat";  
+        item[2].name = "Global Chat ";
+        item[3].name = "Status spam";
 }
+
 
 int main()
 {
@@ -76,34 +103,28 @@ int main()
 	
 	for(;;)
 	{
-             // We need to make sure it only accepts Enter when we have this window in the foreground
-	     CurWindow = FindWindow(0, "Menu");
-		if (GetForegroundWindow() == CurWindow && GetAsyncKeyState(VK_RETURN))
-		{
-		    switch(MenuIndex)
-			 {
-				default: 
-					break;
-		     }
-		 }
+        	// We need to make sure it only accepts Enter when we have this window in the foreground
+	    	CurWindow = FindWindow(0, "Menu");
+		
 				 
 		KeyboardInput();
 		for(int i=0; i < MAX_MENU_ITEMS; i++)
 		{
 			if (MenuIndex == i)
 			{
-				std::cout << "->            " << yellow << item[i].name << std::endl;
+				std::cout << "->\t\t" << yellow << item[i].name << std::endl;
 			}
+			
 			else
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-				std::cout << "        " << item[i].name << std::endl;
-			}
+				std::cout << "\t" << item[i].name << std::endl;
+			}	
 		}
 	
-		Sleep(140);
+		Sleep(141);
 		ClearScreen();
 	}
 
-		return 0;
+	return 0;
 }
