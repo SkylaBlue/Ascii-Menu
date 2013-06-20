@@ -40,14 +40,26 @@ void KeyboardInput()
 		 {
 			MenuIndex--;
 		 }
+
+		// Don't allow the user to go above the first item
+		else
+		{
+			MenuIndex = 0;
+		}
 	 }
 
 	 if(GetAsyncKeyState(VK_DOWN)&1)
 	  {
-		 if(MenuIndex < 5-1)
+		 if(MenuIndex < 2)
 		  {
 			 MenuIndex++;
 		  }
+
+		 // Don't allow the user to go below the last item
+		 else
+		 {
+			 MenuIndex=3;
+		 }
 	  }
 
 	if(GetAsyncKeyState(VK_END)&1)
