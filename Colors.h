@@ -1,4 +1,4 @@
-#Thanks to my bro soap for some help with this
+//Thanks to my bro soap for some help with this
 #pragma once
 #include <windows.h>
 
