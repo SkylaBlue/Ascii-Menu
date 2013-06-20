@@ -85,7 +85,7 @@ int main()
 	HWND CurWindow;
 	SetNames();
 	
-	for(;;(Sleep(1)))
+	for(;;)
 	{
 		
     # We need to make sure it only accepts Enter when we have this window in the foreground
@@ -113,7 +113,8 @@ int main()
 			}
 		}
 	
-		system("CLS");
+		Sleep(140);
+		ClearScreen();
 	}
 
 		return 0;
