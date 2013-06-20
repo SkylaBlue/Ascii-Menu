@@ -10,7 +10,7 @@
 
 int MenuIndex = 0;
 
-# Menu Items
+// Menu Items
 struct Items
 {
   const char *name;
@@ -19,19 +19,7 @@ struct Items
 
 Items item[MAX_MENU_ITEMS];
 
-void clearScreen(int pos)
-{
-    HANDLE hOut;
-    COORD Position;
- 
-    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
- 
-    Position.X = 0;
-    Position.Y = pos;
-    SetConsoleCursorPosition(hOut, Position);
-}
-
-# Move to a different menu item
+// Move to a different menu item
 void KeyboardInput()
  { 
 	if(GetAsyncKeyState(VK_UP)&1)
@@ -70,7 +58,7 @@ void KeyboardInput()
 
 }
 
-# Initialise our Menu
+// Initialise our Menu
 void SetNames()
 {
         item[NAME].name = "Change Name";
@@ -87,9 +75,8 @@ int main()
 	
 	for(;;)
 	{
-		
-    # We need to make sure it only accepts Enter when we have this window in the foreground
-		CurWindow = FindWindow(0, "Menu");
+             // We need to make sure it only accepts Enter when we have this window in the foreground
+	     CurWindow = FindWindow(0, "Menu");
 		if (GetForegroundWindow() == CurWindow && GetAsyncKeyState(VK_RETURN))
 		{
 		    switch(MenuIndex)
