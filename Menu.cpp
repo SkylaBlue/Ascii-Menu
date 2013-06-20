@@ -12,17 +12,22 @@
 int MenuIndex = 0;
 
 
-/*
-std::string test()
+
+void test()
 {
 	std::string name;
 	std::cout << "Enter your name: ";
 	std::cin.ignore();
 	getline(std::cin, name);
 	std::cout << "Name is now: " << name << std::endl;
-	return name;
+	getchar();
 }
-*/
+
+void Hello()
+{
+	std::cout << "Hello World!";
+	getchar();
+}
 
 // Menu Items
 struct Items
@@ -64,27 +69,32 @@ void KeyboardInput()
 		 }
 	  }
 
-	 /*
-	 if (GetAsyncKeyState(VK_RETURN)&1)
-		{
-			switch(MenuIndex)
-			 {
-				case 0:
-					std::cout << test();
-					ClearScreen();
-					break;
-				default: 
-					break;
-			 }
-		}
-	*/
+
 	if(GetAsyncKeyState(VK_END)&1)
 	 {
-		item[MenuIndex].Enabled = !item[MenuIndex].Enabled; 
+		item[MenuIndex].Enabled = false; 
 	 }
 	
 }
 
+void Enter(int c)
+{
+	switch(c)
+	{
+		case 0:
+			ClearScreen();
+			test();
+			ClearScreen();
+			break;
+		case 1:
+			ClearScreen();
+			Hello();
+			ClearScreen();
+			break;
+		default:
+			break;
+	}
+}
 // Initialise our Menu
 void SetNames()
 {
@@ -103,20 +113,26 @@ int main()
 	
 	for(;;)
 	{
-        	// We need to make sure it only accepts Enter when we have this window in the foreground
-	    	CurWindow = FindWindow(0, "Menu");
-		
-				 
+        // We need to make sure it only accepts Enter when we have this window in the foreground
+	    CurWindow = FindWindow(0, "Menu");
+
 		KeyboardInput();
 		for(int i=0; i < MAX_MENU_ITEMS; i++)
 		{
+			if (GetAsyncKeyState(VK_RETURN)&1 && item[i].Enabled == true)
+			{
+					Enter(i);
+			}
+
 			if (MenuIndex == i)
 			{
+				item[i].Enabled = true;
 				std::cout << "->\t\t" << yellow << item[i].name << std::endl;
 			}
 			
 			else
 			{
+				item[i].Enabled = false;
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				std::cout << "\t" << item[i].name << std::endl;
 			}	
@@ -126,5 +142,5 @@ int main()
 		ClearScreen();
 	}
 
-	return 0;
+		return 0;
 }
