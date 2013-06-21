@@ -12,22 +12,39 @@
 int MenuIndex = 0;
 
 
-
-void test()
+/*
+The following functions are purely for debugging purposes.
+*/
+void One()
 {
-	std::string name;
-	std::cout << "Enter your name: ";
-	std::cin.ignore();
-	getline(std::cin, name);
-	std::cout << "Name is now: " << name << std::endl;
-	getchar();
+	ClearScreen();
+	std::cout << "Menu Item One";
+	Sleep(300);
 }
 
-void Hello()
+void Two()
 {
-	std::cout << "Hello World!";
-	getchar();
+	ClearScreen();
+	std::cout << "Menu Item Two";
+	Sleep(300);
 }
+
+void Three()
+{
+	ClearScreen();
+	std::cout << "Menu Item Three";
+	Sleep(300);
+}
+
+void Four()
+{
+	ClearScreen();
+	std::cout << "Menu Item Four";
+	Sleep(300);
+}
+/**********************
+End debugging functions
+**********************/
 
 // Menu Items
 struct Items
@@ -82,19 +99,22 @@ void Enter(int c)
 	switch(c)
 	{
 		case 0:
-			ClearScreen();
-			test();
-			ClearScreen();
+			One();
 			break;
 		case 1:
-			ClearScreen();
-			Hello();
-			ClearScreen();
+			Two();
+			break;
+		case 2:
+			Three();
+			break;
+		case 3:
+			Four();
 			break;
 		default:
 			break;
 	}
 }
+
 // Initialise our Menu
 void SetNames()
 {
@@ -119,20 +139,18 @@ int main()
 		KeyboardInput();
 		for(int i=0; i < MAX_MENU_ITEMS; i++)
 		{
-			if (GetAsyncKeyState(VK_RETURN)&1 && item[i].Enabled == true)
+			if (GetAsyncKeyState(VK_RETURN))
 			{
-					Enter(i);
+					Enter(MenuIndex);
 			}
 
 			if (MenuIndex == i)
 			{
-				item[i].Enabled = true;
 				std::cout << "->\t\t" << yellow << item[i].name << std::endl;
 			}
 			
 			else
 			{
-				item[i].Enabled = false;
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				std::cout << "\t" << item[i].name << std::endl;
 			}	
