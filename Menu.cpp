@@ -14,6 +14,14 @@ struct gItems
 };
 gItems Item[MAX_MENU_ITEMS];
 
+struct gEmployee
+{
+	const char *first_name;
+	const char *last_name;
+	int         age;
+	int			id_num;
+};
+
 /*
  */
 int main()
@@ -21,7 +29,8 @@ int main()
 	// Wrap our object with our smartptr class
 	// this way we don't have to worry about freeing memory
 	smartptr<CMenu> Menu = new CMenu;
-	
+	smartptr<gEmployee> newEmp = new gEmployee;
+
 	SetConsoleTitle("Menu");
 	HWND CurWindow;
 	Menu->SetNames();
@@ -35,22 +44,23 @@ int main()
 		{
 			if (GetAsyncKeyState(VK_RETURN))
 			{
+				std::cout << cyan;
 				Menu->VoidEnter(g_iMenuIndex);
-					break;
+				break;
 			}
 
 			if (g_iMenuIndex == i)
 			{
-				std::cout << "->\t\t" << yellow << Item[i].name << std::endl;
+				std::cout << yellow << "->\t" << yellow << Item[i].name << std::endl;
 			}
 			
 			else
 			{
-				std::cout << "\t" << cyan << Item[i].name << std::endl;
+				std::cout << cyan << Item[i].name << std::endl;
 			}	
 		}
 	
-		Sleep(141);
+		Sleep(141); // Sleep(141);
 		ClearScreen();
 	}
 	
@@ -132,7 +142,7 @@ void CMenu::KeyboardInput()
 	 // User pressed down arrow
 	 if(GetAsyncKeyState(VK_DOWN)&1)
 	  {
-		 if(g_iMenuIndex < 2)
+		 if(g_iMenuIndex < 5)
 		  {
 			 g_iMenuIndex++;
 		  }
@@ -140,7 +150,7 @@ void CMenu::KeyboardInput()
 		 // Don't allow the user to go below the last item
 		 else
 		 {
-			g_iMenuIndex=3;
+			g_iMenuIndex = 5;
 		 }
 	  }
 }
@@ -170,8 +180,14 @@ void CMenu::VoidEnter(int c)
 //Initialise Menu Items
 void CMenu::SetNames()
 {
-        Item[0].name = "Change Name";
-        Item[1].name = "Two";  
-        Item[2].name = "Three";
-		Item[3].name = "Four";
+        Item[0].name = "New Employee";
+        Item[1].name = "Edit Employee";  
+        Item[2].name = "Remove Employee";
+		Item[3].name = "Generate Employee ID";
+		Item[4].name = "Change Password";
+		Item[5].name = "Logout";
 }
+
+
+
+	
