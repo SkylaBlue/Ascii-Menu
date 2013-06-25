@@ -19,8 +19,9 @@ struct gEmployee
 	const char *first_name;
 	const char *last_name;
 	int         age;
-	int			id_num;
+	int         id_num;
 };
+smartptr<gEmployee> newEmp = new gEmployee;
 
 /*
  */
@@ -29,7 +30,7 @@ int main()
 	// Wrap our object with our smartptr class
 	// this way we don't have to worry about freeing memory
 	smartptr<CMenu> Menu = new CMenu;
-	smartptr<gEmployee> newEmp = new gEmployee;
+	
 
 	SetConsoleTitle("Menu");
 	HWND CurWindow;
@@ -84,12 +85,12 @@ The following functions are purely for debugging purposes.
 */
 void CMenu::ChangeName()
 {
-	std::string name;
+	std::string first, last;
 	ClearScreen();
 	//std::cout << "Menu Item One";
 	std::cout << "Enter name: ";
-	std::cin >> name;
-	std::cout << "Name is: " << name;
+	std::cin >> first;
+	std::cout << "Name is: " << first;
 	this->ReturnToMenu();
 	ClearScreen();
 }
@@ -97,7 +98,15 @@ void CMenu::ChangeName()
 void CMenu::Two()
 {
 	ClearScreen();
-	std::cout << "Menu Item Two";
+	newEmp->first_name = "Bob";
+	newEmp->last_name  = "Jones";
+	newEmp->age        = 32;
+	newEmp->id_num     = 123456;
+
+	printf("First Name: %s\n"
+		   "Last  Name: %s\n"
+		   "Age: %i\n"
+		   "Employee ID: %i", newEmp->first_name, newEmp->last_name, newEmp->age, newEmp->id_num);
 	this->ReturnToMenu();
 	ClearScreen();
 }
@@ -142,7 +151,7 @@ void CMenu::KeyboardInput()
 	 // User pressed down arrow
 	 if(GetAsyncKeyState(VK_DOWN)&1)
 	  {
-		 if(g_iMenuIndex < 5)
+		  if(g_iMenuIndex < 6)
 		  {
 			 g_iMenuIndex++;
 		  }
@@ -150,7 +159,7 @@ void CMenu::KeyboardInput()
 		 // Don't allow the user to go below the last item
 		 else
 		 {
-			g_iMenuIndex = 5;
+			g_iMenuIndex = 6;
 		 }
 	  }
 }
@@ -172,6 +181,8 @@ void CMenu::VoidEnter(int c)
 		case 3:
 			Four();
 			break;
+		case 6:
+			exit(1);
 		default:
 			break;
 	}
@@ -183,9 +194,10 @@ void CMenu::SetNames()
         Item[0].name = "New Employee";
         Item[1].name = "Edit Employee";  
         Item[2].name = "Remove Employee";
-		Item[3].name = "Generate Employee ID";
-		Item[4].name = "Change Password";
-		Item[5].name = "Logout";
+	Item[3].name = "View All Employees";
+	Item[4].name = "Generate Employee ID";
+	Item[5].name = "Change Password";
+	Item[6].name = "Logout";
 }
 
 
