@@ -1,10 +1,8 @@
 #include "Includes.h"
-#include "Menu.h"
-#include "SmartPtr.h"
 
 // Global integer to keep track of current menu selection
 int g_iMenuIndex;
-
+std::ofstream myFile;
 
 // Structure to hold Item information. Note: We really only use name.
 struct gItems
@@ -16,12 +14,11 @@ gItems Item[MAX_MENU_ITEMS];
 
 struct gEmployee
 {
-	const char *first_name;
-	const char *last_name;
+	std::string first_name;
+	std::string last_name;
 	int         age;
 	int         id_num;
 };
-smartptr<gEmployee> newEmp = new gEmployee;
 
 /*
  */
@@ -30,7 +27,6 @@ int main()
 	// Wrap our object with our smartptr class
 	// this way we don't have to worry about freeing memory
 	smartptr<CMenu> Menu = new CMenu;
-	
 
 	SetConsoleTitle("Menu");
 	HWND CurWindow;
@@ -83,14 +79,44 @@ void CMenu::ReturnToMenu()
 /*
 The following functions are purely for debugging purposes.
 */
-void CMenu::ChangeName()
+void CMenu::NewEmployee()
 {
 	std::string first, last;
+	int age, id;
+
+	myFile.open("employee.txt", 'w');
+	//if(!myFile.good()) std::cout << "Couldn't open employee.txt!"; exit(1);
+
 	ClearScreen();
 	//std::cout << "Menu Item One";
 	std::cout << "Enter name: ";
-	std::cin >> first;
-	std::cout << "Name is: " << first;
+	std::cin  >> first;
+	std::cout << "Enter last name: ";
+	std::cin  >> last;
+	std::cout << "Enter age: ";
+	std::cin  >> age;
+	std::cout << "Enter employee id: ";
+	std::cin  >> id;
+
+	gEmployee newEmp = {first, last, age, id };
+	smartptr<gEmployee> wr = &newEmp;
+
+	/*
+	std::cout << newEmp.first_name << std::endl;
+	std::cout << newEmp.last_name  << std::endl;
+	std::cout << newEmp.age        << std::endl;
+	std::cout << newEmp.id_num     << std::endl;
+	*/
+	
+	myFile << "Testing";
+	/*
+	myFile << wr->first_name << std::endl;
+	myFile << wr->last_name  << std::endl;
+	myFile << wr->age        << std::endl;
+	myFile << wr->id_num     << std::endl;
+	myFile.close();
+	*/
+	myFile.close();
 	this->ReturnToMenu();
 	ClearScreen();
 }
@@ -98,6 +124,7 @@ void CMenu::ChangeName()
 void CMenu::Two()
 {
 	ClearScreen();
+	/*
 	newEmp->first_name = "Bob";
 	newEmp->last_name  = "Jones";
 	newEmp->age        = 32;
@@ -107,6 +134,7 @@ void CMenu::Two()
 		   "Last  Name: %s\n"
 		   "Age: %i\n"
 		   "Employee ID: %i", newEmp->first_name, newEmp->last_name, newEmp->age, newEmp->id_num);
+	*/
 	this->ReturnToMenu();
 	ClearScreen();
 }
@@ -170,7 +198,7 @@ void CMenu::VoidEnter(int c)
 	switch(c)
 	{
 		case 0:
-			ChangeName();
+			NewEmployee();
 			break;
 		case 1:
 			Two();
@@ -191,9 +219,9 @@ void CMenu::VoidEnter(int c)
 //Initialise Menu Items
 void CMenu::SetNames()
 {
-        Item[0].name = "New Employee";
-        Item[1].name = "Edit Employee";  
-        Item[2].name = "Remove Employee";
+    Item[0].name = "New Employee";
+    Item[1].name = "Edit Employee";  
+    Item[2].name = "Remove Employee";
 	Item[3].name = "View All Employees";
 	Item[4].name = "Generate Employee ID";
 	Item[5].name = "Change Password";
